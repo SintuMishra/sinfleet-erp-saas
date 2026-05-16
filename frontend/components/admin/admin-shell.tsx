@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, ChevronRight, LayoutDashboard, LogOut, Menu, UsersRound, X } from "lucide-react";
+import { Building2, ChevronRight, LayoutDashboard, LogOut, Menu, ShieldCheck, UsersRound, X } from "lucide-react";
 import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,7 +12,8 @@ import { adminLabels } from "@/lib/admin-labels";
 const labels = adminLabels.en;
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/companies", label: "Companies", icon: UsersRound }
+  { href: "/admin/companies", label: "Companies", icon: UsersRound },
+  { href: "/admin/audit-logs", label: "Audit Logs", icon: ShieldCheck }
 ];
 
 export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>) {

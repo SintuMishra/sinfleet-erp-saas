@@ -50,6 +50,9 @@ SinFleet ERP uses a premium dark navy/slate SaaS shell with white glass content 
 - Loading and empty states should be explicit and reassuring, not blank panels.
 - Repeated rows should use `premium-record` treatment for hover lift and scanability.
 - Filters should use consistent rounded-xl controls and clear labels/placeholders.
+- Export buttons should sit near the report or record they download, show a loading label while active, and remain wrapped inside their header/filter container.
+- Audit trail screens should use compact tables inside `ResponsiveTable`, clear action badges, readable timestamps, and concise metadata previews.
+- Demo-facing pages should avoid blank panels: use explicit loading, empty, and error states even when the backend is still warming up.
 
 ## Screenshot Placeholders
 
@@ -59,4 +62,5 @@ When seeded data is available, capture:
 - Company login.
 - Company dashboard.
 - Vehicles, trips, payments, and reports pages.
+- Audit logs pages.
 - Super Admin dashboard and companies page.

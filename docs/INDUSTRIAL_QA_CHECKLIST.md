@@ -10,6 +10,7 @@ Date: 2026-05-16
 - Run `npm run build`.
 - Run migrations on a local PostgreSQL database.
 - Run `npm run db:seed:demo`.
+- Run `npm run smoke:seeded` with stable demo passwords.
 - Confirm `/api/health` returns safe metadata and request id.
 
 ## Auth And Sessions

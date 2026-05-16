@@ -10,7 +10,8 @@
 - Complete `docs/DEPLOYMENT_CHECKLIST.md` for the target hosting stack.
 - Replace in-memory auth rate limiting with Redis-backed rate limiting before horizontal scaling.
 - Run `npm run db:seed:demo` in local/demo environments.
-- Complete `docs/QA_CHECKLIST.md` against the seeded Sharma Roadlines Demo tenant.
+- Run `npm run smoke:seeded` after local backend startup and demo seed.
+- Complete `docs/SEEDED_BROWSER_QA_RUNBOOK.md` and `docs/QA_CHECKLIST.md` against the seeded Sharma Roadlines Demo tenant.
 - Capture README screenshots after seeded browser QA.
 - Run secure Super Admin seed in non-demo local/deployment environments.
 - Verify login/refresh/logout against migrated PostgreSQL.
@@ -24,21 +25,19 @@
 - Verify Company Admin outstanding, trip profit, and client summary reports against migrated PostgreSQL.
 - Verify Company Admin dashboard, vehicle profit, driver performance, client ledger, and document expiry reports against migrated PostgreSQL and demo seed data.
 - Verify Company Admin invoice PDF, client statement PDF, and Excel report downloads against migrated PostgreSQL and demo seed data.
-- Confirm export audit rows appear under `/api/company/audit-logs?module=exports&action=EXPORT`.
+- Confirm export audit rows appear in `/company/audit-logs` and `/api/company/audit-logs?module=exports&action=EXPORT`.
+- Browser QA the new `/admin/audit-logs` and `/company/audit-logs` pages with seeded audit data.
 - Run seeded browser visual QA at 13-inch laptop, 15-inch laptop, tablet, and mobile widths for all stabilized admin/company pages.
 - Add tenant-aware CRUD APIs for billing and documents.
 - Add automated integration tests with a test PostgreSQL database.
 
 ## Frontend Tasks
 
-- Run visual QA against seeded company data for `/admin`, `/admin/companies`, `/company/dashboard`, `/company/vehicles`, `/company/drivers`, `/company/clients`, `/company/trips`, `/company/diesel`, `/company/expenses`, `/company/payments`, report pages, and export controls.
-- Replace direct delete buttons with the shared confirmation dialog flow.
+- Run visual QA against seeded company data for `/admin`, `/admin/companies`, `/admin/audit-logs`, `/company/dashboard`, `/company/vehicles`, `/company/drivers`, `/company/clients`, `/company/trips`, `/company/diesel`, `/company/expenses`, `/company/payments`, `/company/audit-logs`, report pages, and export controls.
 - Browser QA the new PDF/Excel export controls on trips, clients, outstanding, vehicle profit, driver performance, and client ledger pages.
 - Confirm public landing and login screens remain overflow-free at mobile/tablet/laptop widths.
 - Add richer dashboard charts once charting dependency is selected.
 - Add screenshot assets under `docs/screenshots/` for README placeholders.
-- Add token refresh handling in frontend API client.
-- Add Company Admin route protection/redirect checks.
 - Add Driver mobile-first dashboard.
 - Add forms and tables for billing, documents, and deeper dashboard charts.
 

@@ -10,6 +10,7 @@ import {
   Menu,
   X,
   ReceiptText,
+  ShieldCheck,
   Truck,
   UsersRound,
   Warehouse,
@@ -35,7 +36,8 @@ const navItems = [
   { href: "/company/expenses", label: labels.expenses, icon: ReceiptText },
   { href: "/company/payments", label: labels.payments, icon: CircleDollarSign },
   { href: "/company/reports", label: labels.reports, icon: BarChart3 },
-  { href: "/company/clients", label: labels.clients, icon: Handshake }
+  { href: "/company/clients", label: labels.clients, icon: Handshake },
+  { href: "/company/audit-logs", label: "Audit Logs", icon: ShieldCheck }
 ];
 
 export function CompanyShell({ children }: Readonly<{ children: React.ReactNode }>) {

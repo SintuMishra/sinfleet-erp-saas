@@ -13,7 +13,8 @@
     "db:generate": "npm run prisma:generate --workspace backend",
     "db:seed": "npm run prisma:seed --workspace backend",
     "db:seed:demo": "npm run prisma:seed:demo --workspace backend",
-    "verify:auth": "npm run verify:auth --workspace backend"
+    "verify:auth": "npm run verify:auth --workspace backend",
+    "smoke:seeded": "node scripts/smoke-seeded-demo.mjs"
   },
   "workspaces": [
     "backend",

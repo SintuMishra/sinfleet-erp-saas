@@ -128,6 +128,8 @@ Frontend currently includes:
 - Company export APIs live under `/api/company/exports` and are protected by `requireRole(COMPANY_ADMIN, USER)`.
 - Export APIs include trip invoice PDF, client statement PDF, vehicle profit XLSX, driver performance XLSX, client ledger XLSX, and outstanding XLSX.
 - Exports reuse tenant-scoped report services where applicable, generate backend-only files through `pdfkit` and `exceljs`, set safe `Content-Disposition` filenames, and write `EXPORT` audit logs.
+- Admin audit APIs live under `/api/admin/audit-logs`; Company audit APIs live under `/api/company/audit-logs`.
+- Frontend audit log pages now exist at `/admin/audit-logs` and `/company/audit-logs` with filters, pagination, loading/empty/error states, and scroll-safe tables.
 - Super Admin is blocked from company vehicle APIs unless an explicit tenant context feature is added later.
 
 ## Environment Variables
@@ -159,7 +161,11 @@ Deployment is Docker-ready with initial Dockerfiles for frontend/backend and Com
 
 ## Latest Project State
 
-Responsive Stabilization was implemented on 2026-05-16 after the Export & Invoice Phase. The latest frontend pass keeps the premium UI and business logic intact while tightening layout behavior across MacBook Air/standard laptop/tablet/mobile widths. It adds responsive page/workspace/summary/filter helpers, reusable responsive container/table wrappers, safer shell/sidebar/header overflow behavior, public shell/landing stabilization, export button wrapping, and breakpoint fixes across admin, company CRUD, dashboard, and report pages.
+Seeded Browser QA Readiness was implemented on 2026-05-16 after Premium Final Polish and Gap Audit. It adds `docs/SEEDED_BROWSER_QA_RUNBOOK.md`, clarifies that backend/Prisma commands need `backend/.env`, and adds `npm run smoke:seeded` for health, login, and basic authenticated API route checks against a migrated/seeded local demo environment.
+
+Premium Final Polish and Gap Audit was implemented on 2026-05-16 after Responsive Stabilization. The pass intentionally avoided large new features and focused on demo/client-readiness gaps: it documents missing gaps in `docs/MISSING_GAPS_AUDIT.md`, exposes existing audit APIs through Admin and Company UI pages, adds audit navigation/dashboard/report links, and lightly polishes landing/demo messaging around invoices, Excel exports, audit logs, and Indian transport SaaS readiness.
+
+Responsive Stabilization was implemented on 2026-05-16 after the Export & Invoice Phase. The frontend keeps the premium UI and business logic intact while tightening layout behavior across MacBook Air/standard laptop/tablet/mobile widths. It adds responsive page/workspace/summary/filter helpers, reusable responsive container/table wrappers, safer shell/sidebar/header overflow behavior, public shell/landing stabilization, export button wrapping, and breakpoint fixes across admin, company CRUD, dashboard, and report pages.
 
 ## Verification State
 
@@ -177,6 +183,13 @@ Responsive Stabilization was implemented on 2026-05-16 after the Export & Invoic
 - `npm run typecheck`: passed after Responsive Stabilization.
 - `npm run lint`: passed after Responsive Stabilization.
 - `npm run build`: passed after Responsive Stabilization with escalated permissions because Turbopack requires a local helper process.
+- `npm run typecheck`: passed after Premium Final Polish and Gap Audit.
+- `npm run lint`: passed after Premium Final Polish and Gap Audit.
+- `npm run build`: passed after Premium Final Polish and Gap Audit with escalated permissions because Turbopack requires a local helper process.
+- `npm run db:generate`: passed after Seeded Browser QA Readiness.
+- `npm run typecheck`: passed after Seeded Browser QA Readiness.
+- `npm run lint`: passed after Seeded Browser QA Readiness.
+- `npm run build`: passed after Seeded Browser QA Readiness with escalated permissions because Turbopack requires a local helper process.
 - `npm run dev`: running locally.
 - Frontend health: `http://localhost:3000` returns HTTP 200.
 - Backend health: `http://localhost:5001/api/health` returns `status: ok`.

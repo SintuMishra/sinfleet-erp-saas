@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, CreditCard, UsersRound } from "lucide-react";
+import { Building2, CreditCard, ShieldCheck, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const stats = [
   { label: "Companies", value: "Manage", icon: Building2 },
   { label: "Subscriptions", value: "Ready", icon: CreditCard },
-  { label: "Users", value: "Controlled", icon: UsersRound }
+  { label: "Users", value: "Controlled", icon: UsersRound },
+  { label: "Audit Trail", value: "Visible", icon: ShieldCheck }
 ];
 
 export default function AdminDashboardPage() {
@@ -28,7 +29,7 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((stat) => (
             <Card key={stat.label}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -40,6 +41,27 @@ export default function AdminDashboardPage() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Link href="/admin/companies" className="block">
+            <Card className="h-full hover:border-primary/50">
+              <CardContent className="grid gap-2 pt-5">
+                <Building2 className="h-6 w-6 text-primary" aria-hidden="true" />
+                <p className="font-semibold text-slate-950">Tenant Operations</p>
+                <p className="text-sm text-muted-foreground">Create companies, manage subscription status and review tenant capacity.</p>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link href="/admin/audit-logs" className="block">
+            <Card className="h-full hover:border-primary/50">
+              <CardContent className="grid gap-2 pt-5">
+                <ShieldCheck className="h-6 w-6 text-primary" aria-hidden="true" />
+                <p className="font-semibold text-slate-950">Audit Logs</p>
+                <p className="text-sm text-muted-foreground">Review exports, record changes and cross-tenant activity from one protected screen.</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </section>
     </AdminShell>

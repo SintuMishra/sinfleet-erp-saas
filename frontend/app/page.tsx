@@ -7,7 +7,9 @@ const metrics = [
   { label: "Fleet Utilisation", value: "Live", icon: Truck },
   { label: "Trip Profit", value: "Clear", icon: BarChart3 },
   { label: "Diesel Control", value: "Tight", icon: Fuel },
-  { label: "Outstanding", value: "Tracked", icon: CircleDollarSign }
+  { label: "Outstanding", value: "Tracked", icon: CircleDollarSign },
+  { label: "Invoices", value: "PDF", icon: ShieldCheck },
+  { label: "Audit Trail", value: "Ready", icon: ShieldCheck }
 ];
 
 export default function HomePage() {
@@ -32,13 +34,13 @@ export default function HomePage() {
 
         <section className="grid min-w-0 flex-1 items-center gap-10 py-10 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:py-12">
           <div className="min-w-0">
-            <span className="premium-badge border-cyan-300/30 bg-cyan-300/10 text-cyan-100">Hindi / English ready</span>
+            <span className="premium-badge border-cyan-300/30 bg-cyan-300/10 text-cyan-100">Indian transport SaaS · Hindi / English ready</span>
             <h1 className="mt-6 max-w-4xl break-words text-4xl font-semibold tracking-tight text-white sm:text-6xl">
               Smart Transport Management Platform
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
               Built for fleet owners, transport contractors and logistics operators who need trips, diesel, expenses,
-              payments, outstanding and profit in one premium workspace.
+                payments, invoices, Excel exports, audit logs and profit in one premium workspace.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/company/login">
@@ -65,7 +67,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {["Trips", "Diesel", "Payments"].map((item) => (
+                {["Trips", "Diesel", "Payments", "Reports", "Exports", "Audit"].map((item) => (
                   <div key={item} className="rounded-2xl border bg-slate-50 p-4">
                     <Route className="h-5 w-5 text-sky-600" aria-hidden="true" />
                     <p className="mt-2 font-semibold text-slate-950">{item}</p>

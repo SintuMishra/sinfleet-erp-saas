@@ -12,6 +12,8 @@ Use this checklist after running the demo seed against a migrated local database
 - Start the app with `npm run dev`.
 - Confirm frontend opens at `http://localhost:3000`.
 - Confirm backend health returns OK at `http://localhost:5001/api/health`.
+- Optionally run `npm run smoke:seeded` after setting stable demo passwords.
+- Follow the ordered seeded browser runbook in `docs/SEEDED_BROWSER_QA_RUNBOOK.md`.
 
 ## Demo Credentials
 

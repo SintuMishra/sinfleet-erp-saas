@@ -4,7 +4,7 @@ Date: 2026-05-16
 
 ## Current Phase
 
-Responsive Stabilization Phase.
+Seeded Browser QA Readiness Phase.
 
 ## Completed Work
 
@@ -127,6 +127,16 @@ Responsive Stabilization Phase.
 - Improved filter bars, record rows, stat cards, cards, buttons, and page headers with min-width, wrapping, and breakpoint fixes.
 - Stabilized public shell/landing layout and export/download buttons so they wrap inside filter/header containers.
 - Added responsive stabilization changelog.
+- Completed missing gaps audit for demo readiness and first-client readiness.
+- Added Admin and Company audit log frontend pages backed by existing audit APIs.
+- Added audit log navigation links in Admin and Company sidebars.
+- Added Admin dashboard audit/tenant operation cards and Company reports index audit link.
+- Polished landing copy to communicate invoices, Excel exports, audit logs, and Indian transport SaaS positioning.
+- Created premium final polish changelog.
+- Created seeded browser QA runbook with setup, smoke test, module checks, export checks, audit checks, logout/session checks, mobile sidebar checks, and 13-inch laptop layout checks.
+- Added lightweight seeded API smoke test command `npm run smoke:seeded`.
+- Clarified local setup documentation so backend and Prisma commands use `backend/.env`.
+- Created seeded browser QA readiness changelog.
 
 ## Verification
 
@@ -147,6 +157,13 @@ Responsive Stabilization Phase.
 - `npm run typecheck` passed after Responsive Stabilization.
 - `npm run lint` passed after Responsive Stabilization.
 - `npm run build` passed after Responsive Stabilization with escalated permissions because Next.js/Turbopack requires a local helper process during build.
+- `npm run typecheck` passed after Premium Final Polish and Gap Audit.
+- `npm run lint` passed after Premium Final Polish and Gap Audit.
+- `npm run build` passed after Premium Final Polish and Gap Audit with escalated permissions because Next.js/Turbopack requires a local helper process during build.
+- `npm run db:generate` passed after Seeded Browser QA Readiness.
+- `npm run typecheck` passed after Seeded Browser QA Readiness.
+- `npm run lint` passed after Seeded Browser QA Readiness.
+- `npm run build` passed after Seeded Browser QA Readiness with escalated permissions because Next.js/Turbopack requires a local helper process during build.
 - `npm run dev` is running locally.
 - `GET http://localhost:5001/api/health` returned `status: ok`.
 - `HEAD http://localhost:3000` returned HTTP 200.
@@ -240,6 +257,7 @@ Responsive Stabilization Phase.
 - Company payment APIs connect only company-owned clients and trips, keep trip received/balance totals current, and feed outstanding/profit reports.
 - Company report APIs aggregate tenant-owned operational data for dashboards, vehicle profit, driver performance, client ledger, document expiry, outstanding, and trip profit.
 - Company export APIs reuse report data, stream files from the backend, and audit export actions without trusting client-supplied company ids.
+- Frontend audit log pages now expose Admin and tenant-scoped audit trails with filters, pagination, empty/loading/error states, and scroll-safe tables.
 - Frontend layout now uses responsive utility classes for page, summary, filter, workspace, and table surfaces to keep laptop/tablet/mobile layouts within the viewport.
 - Frontend uses Next.js 16 App Router, Tailwind CSS, Axios API client, React Query provider, and reusable UI components.
 - Database schema uses `companyId` across tenant-owned business tables.
@@ -263,6 +281,7 @@ Responsive Stabilization Phase.
 ## Remaining UI Debt
 
 - Seeded browser visual QA is still needed for every CRUD module and export control after a live database is available.
+- `npm run smoke:seeded` requires a running backend, migrated/seeded database, and stable demo passwords in `backend/.env` or shell env.
 - Report pages are polished as premium list/card views with initial PDF/Excel export actions; richer charts remain future work.
-- Destructive actions still use direct buttons; a real confirmation dialog should replace the placeholder before production.
-- Billing, documents, maintenance, driver mobile dashboard, and richer dashboard interactions remain future modules.
+- Billing, documents, maintenance, driver mobile dashboard, richer dashboard interactions, and automated integration tests remain future modules.
+- First-client readiness still needs production deployment verification, Redis-backed rate limiting, monitoring/backups, and seeded browser QA.

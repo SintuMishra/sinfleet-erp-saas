@@ -40,11 +40,14 @@ sinfleet-erp-saas/
 
 ## Local Setup
 
-1. Copy environment file:
+1. Copy environment files:
 
 ```bash
 cp .env.example .env
+cp backend/.env.example backend/.env
 ```
+
+`backend/.env` is required for backend, Prisma migration, and seed commands because backend workspace commands run from the `backend/` directory. Keep real secrets in ignored local env files.
 
 2. Install dependencies:
 
@@ -152,6 +155,16 @@ Credential safety:
 
 QA checklist: `docs/QA_CHECKLIST.md`.
 
+Seeded browser QA runbook: `docs/SEEDED_BROWSER_QA_RUNBOOK.md`.
+
+Optional seeded API smoke test after `npm run dev`:
+
+```bash
+npm run smoke:seeded
+```
+
+The smoke test checks health, Super Admin login, Company Admin login, and core authenticated routes. It requires stable demo passwords in `backend/.env` or exported shell variables.
+
 ## Super Admin Panel
 
 Frontend pages:
@@ -159,6 +172,7 @@ Frontend pages:
 - `http://localhost:3000/admin/login`
 - `http://localhost:3000/admin`
 - `http://localhost:3000/admin/companies`
+- `http://localhost:3000/admin/audit-logs`
 
 Super Admin company APIs:
 
@@ -169,6 +183,10 @@ Super Admin company APIs:
 - `PATCH /api/admin/companies/:id/status`
 
 All `/api/admin/*` routes require a `SUPER_ADMIN` access token. Company Admin, Driver, and User roles are blocked.
+
+Super Admin audit APIs:
+
+- `GET /api/admin/audit-logs`
 
 ## Company Admin Panel
 
@@ -189,6 +207,7 @@ Frontend pages:
 - `http://localhost:3000/company/reports/driver-performance`
 - `http://localhost:3000/company/reports/client-ledger`
 - `http://localhost:3000/company/reports/document-expiry`
+- `http://localhost:3000/company/audit-logs`
 
 Company vehicle APIs:
 
@@ -274,6 +293,12 @@ These routes require a `COMPANY_ADMIN` or `USER` access token and always use the
 
 Exports are generated on the backend with `pdfkit` and `exceljs`, use safe attachment filenames, and write `EXPORT` audit events under the `exports` module. See `docs/EXPORTS.md`.
 
+Company audit APIs:
+
+- `GET /api/company/audit-logs`
+
+Audit logs are now available inside both Admin and Company workspaces for demo review of exports, soft deletes, status changes, and operational updates. See `docs/MISSING_GAPS_AUDIT.md` for the latest demo/client readiness audit.
+
 ## Required Memory Files
 
 The following files must be updated after every major implementation step:
@@ -307,6 +332,8 @@ Checklist docs:
 - `docs/INDUSTRIAL_QA_CHECKLIST.md`
 - `docs/SECURITY_CHECKLIST.md`
 - `docs/DEPLOYMENT_CHECKLIST.md`
+- `docs/MISSING_GAPS_AUDIT.md`
+- `docs/SEEDED_BROWSER_QA_RUNBOOK.md`
 
 ## Screenshot Placeholders
 

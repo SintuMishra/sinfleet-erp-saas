@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, FileText, IdCard, Truck, UsersRound } from "lucide-react";
+import { BarChart3, FileText, IdCard, ShieldCheck, Truck, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { CompanyShell } from "@/components/company/company-shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +13,8 @@ const reports = [
   { title: labels.driverPerformance, href: "/company/reports/driver-performance", icon: UsersRound, text: "Driver-wise trips, delivered/cancelled count, freight, diesel, and expenses." },
   { title: labels.clientLedger, href: "/company/reports/client-ledger", icon: FileText, text: "Client-wise freight, received amount, outstanding, and trip breakdown." },
   { title: labels.documentExpiry, href: "/company/reports/document-expiry", icon: IdCard, text: "Vehicle documents and driver licenses expiring soon." },
-  { title: labels.outstanding, href: "/company/reports/outstanding", icon: BarChart3, text: "Client-wise and trip-wise pending payments." }
+  { title: labels.outstanding, href: "/company/reports/outstanding", icon: BarChart3, text: "Client-wise and trip-wise pending payments." },
+  { title: "Audit Logs", href: "/company/audit-logs", icon: ShieldCheck, text: "Export and record-change trail for operational accountability." }
 ];
 
 export default function CompanyReportsPage() {
