@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.npm/
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# builds
+dist/
+build/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# generated
+backend/generated/
+backend/src/generated/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
+# uploads/runtime
+uploads/*
+!uploads/.gitkeep
+
+# database/runtime
+*.sqlite
+*.db
