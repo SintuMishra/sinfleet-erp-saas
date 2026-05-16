@@ -261,7 +261,18 @@ Company report APIs:
 - `GET /api/company/reports/trip-profit/:tripId`
 - `GET /api/company/reports/client-summary/:clientId`
 
+Company export APIs:
+
+- `GET /api/company/exports/trip-invoice/:tripId.pdf`
+- `GET /api/company/exports/client-statement/:clientId.pdf`
+- `GET /api/company/exports/vehicle-profit.xlsx`
+- `GET /api/company/exports/driver-performance.xlsx`
+- `GET /api/company/exports/client-ledger.xlsx`
+- `GET /api/company/exports/outstanding.xlsx`
+
 These routes require a `COMPANY_ADMIN` or `USER` access token and always use the authenticated user's `companyId`.
+
+Exports are generated on the backend with `pdfkit` and `exceljs`, use safe attachment filenames, and write `EXPORT` audit events under the `exports` module. See `docs/EXPORTS.md`.
 
 ## Required Memory Files
 

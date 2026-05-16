@@ -34,7 +34,7 @@ export default function CompanyDashboardPage() {
 
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <PageHeader
           eyebrow={labels.companyPanel}
           title={labels.dashboard}
@@ -52,7 +52,7 @@ export default function CompanyDashboardPage() {
 
         <Card className="relative overflow-hidden bg-slate-950 text-white">
           <div className="premium-hero-grid absolute inset-0 opacity-80" />
-          <CardContent className="relative grid gap-6 pt-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+          <CardContent className="relative grid gap-6 pt-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
             <div>
               <p className="text-sm font-semibold text-cyan-200">Today&apos;s transport pulse</p>
               <h2 className="mt-2 max-w-2xl text-2xl font-semibold leading-tight tracking-normal text-white sm:text-3xl">
@@ -78,20 +78,20 @@ export default function CompanyDashboardPage() {
           </CardContent>
         </Card>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="responsive-summary-grid">
           {stats.map((stat) => (
             <StatCard key={stat.label} {...stat} />
           ))}
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-2">
+        <div className="grid min-w-0 gap-4 2xl:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Recent Trips</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-3">
               {(report?.recentTrips ?? []).map((trip) => (
-                <div key={trip.id} className="grid gap-2 premium-record rounded-2xl p-4 sm:grid-cols-[1fr_auto]">
+                <div key={trip.id} className="grid gap-2 premium-record rounded-2xl p-4 sm:grid-cols-[minmax(0,1fr)_auto]">
                   <div>
                     <p className="font-semibold">{trip.tripNumber}</p>
                     <p className="text-sm text-muted-foreground">{trip.sourceLocation} to {trip.destinationLocation}</p>
@@ -113,7 +113,7 @@ export default function CompanyDashboardPage() {
             </CardHeader>
             <CardContent className="grid gap-3">
               {(report?.topClientsByRevenue ?? []).map((client) => (
-                <div key={client.clientId} className="grid gap-2 premium-record rounded-2xl p-4 sm:grid-cols-[1fr_auto]">
+                <div key={client.clientId} className="grid gap-2 premium-record rounded-2xl p-4 sm:grid-cols-[minmax(0,1fr)_auto]">
                   <div>
                     <p className="font-semibold">{client.clientName}</p>
                     <p className="text-sm text-muted-foreground">{client.totalTrips} trips</p>

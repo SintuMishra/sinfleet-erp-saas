@@ -34,7 +34,8 @@ export function createApp() {
       },
       credentials: true,
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization", "X-Request-Id"]
+      allowedHeaders: ["Content-Type", "Authorization", "X-Request-Id"],
+      exposedHeaders: ["Content-Disposition", "X-Request-Id"]
     })
   );
   app.use(compression());

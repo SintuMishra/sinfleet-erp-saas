@@ -133,9 +133,9 @@ export default function CompanyDriversPage() {
 
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <Header title={labels.drivers} />
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="responsive-summary-grid">
           <SummaryCard label="Total Drivers" value={summary?.totalDrivers ?? 0} />
           <SummaryCard label="Active" value={summary?.activeDrivers ?? 0} />
           <SummaryCard label="On Trip" value={summary?.onTripDrivers ?? 0} />
@@ -143,10 +143,10 @@ export default function CompanyDriversPage() {
           <SummaryCard label="License Alerts" value={summary?.expiringLicenses ?? 0} />
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_180px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 2xl:grid-cols-[minmax(0,1fr)_180px]">
                 <SearchInput value={search} onChange={setSearch} placeholder={labels.searchDrivers} />
                 <StatusFilter value={status} onChange={(value) => setStatus(value as DriverStatus | "ALL")} options={statuses} />
               </CardContent>
@@ -158,8 +158,8 @@ export default function CompanyDriversPage() {
               </CardHeader>
               <CardContent className="grid gap-3">
                 {drivers.map((driver) => (
-                  <div key={driver.id} className="grid gap-3 premium-record rounded-2xl p-4 md:grid-cols-[1fr_auto]">
-                    <div className="grid gap-3 sm:grid-cols-3">
+                  <div key={driver.id} className="grid gap-3 premium-record rounded-2xl p-4 md:grid-cols-[minmax(0,1fr)_auto]">
+                    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                       <div>
                         <p className="text-lg font-semibold">{driver.name}</p>
                         <p className="text-sm text-muted-foreground">{driver.phone}</p>
@@ -302,7 +302,7 @@ function Header({ title }: { title: string }) {
         <p className="text-sm font-medium text-muted-foreground">{labels.companyPanel}</p>
         <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{title}</h1>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button variant="secondary">English</Button>
         <Button variant="secondary">Hindi Ready</Button>
       </div>

@@ -554,3 +554,38 @@ Returns one trip's profit summary:
 ### `GET /api/company/reports/client-summary/:clientId`
 
 Returns client totals for freight, received, balance, payment amount, trip count, payment count, and outstanding trips.
+
+## Company Export Endpoints
+
+All routes require a `COMPANY_ADMIN` or `USER` access token and use authenticated `companyId`. Export endpoints return files directly, not the standard JSON envelope.
+
+All responses include:
+
+- `Content-Disposition: attachment`
+- safe generated filenames
+- `Cache-Control: private, no-store`
+- an `EXPORT` audit log row under module `exports`
+
+### `GET /api/company/exports/trip-invoice/:tripId.pdf`
+
+Downloads a PDF invoice for one company-owned trip.
+
+### `GET /api/company/exports/client-statement/:clientId.pdf`
+
+Downloads a PDF statement for one company-owned client.
+
+### `GET /api/company/exports/vehicle-profit.xlsx`
+
+Downloads vehicle profit rows. Supports `fromDate`, `toDate`, and `vehicleId`.
+
+### `GET /api/company/exports/driver-performance.xlsx`
+
+Downloads driver performance rows. Supports `fromDate`, `toDate`, and `driverId`.
+
+### `GET /api/company/exports/client-ledger.xlsx`
+
+Downloads client ledger rows. Supports `fromDate`, `toDate`, and `clientId`.
+
+### `GET /api/company/exports/outstanding.xlsx`
+
+Downloads outstanding trip rows. Supports `search`.

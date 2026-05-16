@@ -67,6 +67,7 @@ All tenant-owned business tables must include `companyId`. Backend services must
 
 - `AuditLog` stores mutation audit events with company id, user id, module, action, entity id, safe values, metadata, and timestamp.
 - Mutating routes for vehicles, drivers, clients, trips, diesel, expenses, payments, and admin company changes are audit logged.
+- Export routes write `EXPORT` audit events under module `exports` with safe filename/type metadata.
 - Super Admins can read audit logs at `/api/admin/audit-logs`.
 - Company users can read company-scoped audit logs at `/api/company/audit-logs`.
 - Audit values are sanitized/redacted to avoid storing passwords, tokens, authorization headers, or secret-like fields.
@@ -150,7 +151,16 @@ All tenant-owned business tables must include `companyId`. Backend services must
 - Driver performance reports calculate trips, delivered/cancelled count, freight, diesel cost, and other expense.
 - Client ledger reports calculate total trips, total freight, received amount, outstanding, and trip breakdown.
 - Document expiry reports cover vehicle insurance, fitness, permit, pollution, and driver license expiry.
-- Report responses are structured for future PDF and Excel export.
+- Report responses feed backend-only PDF and Excel export endpoints without duplicating business calculations.
+
+## Company Exports
+
+- Company export APIs live under `/api/company/exports`.
+- These APIs are protected by `requireAuth` and `requireRole(COMPANY_ADMIN, USER)`.
+- Every export resolves `companyId` from the authenticated user and scopes report/trip/client reads by that tenant.
+- PDF exports use `pdfkit` and include trip invoice and client statement downloads.
+- Excel exports use `exceljs` streaming workbooks for vehicle profit, driver performance, client ledger, and outstanding reports.
+- Export responses set attachment `Content-Disposition`, safe filenames, private no-store cache headers, and `EXPORT` audit rows.
 
 ## Demo Seed And QA Readiness
 

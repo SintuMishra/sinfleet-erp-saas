@@ -2,7 +2,7 @@ import type { Prisma } from "../generated/prisma/client.js";
 import { prisma } from "../config/prisma.js";
 import { logError, sanitizeForLog } from "./logger.js";
 
-export type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "STATUS_CHANGE";
+export type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "STATUS_CHANGE" | "EXPORT";
 
 export type AuditLogInput = {
   companyId?: string | null;

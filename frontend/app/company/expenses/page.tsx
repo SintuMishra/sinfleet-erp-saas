@@ -141,20 +141,20 @@ export default function CompanyExpensesPage() {
 
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <Header />
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="responsive-summary-grid">
           <SummaryCard label="Total Expense Amount" value={money(summary?.totalExpenseAmount)} />
           <SummaryCard label="Trip Expenses" value={money(summary?.tripExpenses)} />
           <SummaryCard label="Vehicle Expenses" value={money(summary?.vehicleExpenses)} />
           <SummaryCard label="Company Expenses" value={money(summary?.companyExpenses)} />
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_150px_150px] xl:grid-cols-[1fr_140px_140px_140px_140px_140px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-[minmax(0,1fr)_140px_140px_140px_140px_140px]">
                 <SearchInput value={search} onChange={setSearch} />
                 <EnumSelect label="Type" value={expenseType} options={expenseTypes} onChange={(value) => setExpenseType(value as ExpenseType | "ALL")} />
                 <FilterSelect label="Vehicle" value={vehicleId} options={vehicles.map((item) => ({ value: item.id, label: item.vehicleNumber }))} onChange={setVehicleId} />
@@ -171,7 +171,7 @@ export default function CompanyExpensesPage() {
               <CardContent className="grid gap-3">
                 {expenses.map((item) => (
                   <div key={item.id} className="grid gap-3 premium-record rounded-2xl p-4">
-                    <div className="grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
+                    <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
                       <div>
                         <p className="text-lg font-semibold">{simple(item.expenseType)}</p>
                         <p className="text-sm text-muted-foreground">{item.trip?.tripNumber ?? item.vehicle?.vehicleNumber ?? "General company expense"}</p>
@@ -180,7 +180,7 @@ export default function CompanyExpensesPage() {
                         <p className="font-medium">{money(item.amount)}</p>
                         <p className="text-sm text-muted-foreground">{simple(item.paymentMode)} / {new Date(item.expenseDate).toLocaleDateString("en-IN")}</p>
                       </div>
-                      <div className="flex gap-2 lg:justify-end">
+                      <div className="flex flex-wrap gap-2 lg:justify-end">
                         <Button variant="secondary" size="icon" aria-label="Edit expense" onClick={() => startEdit(item)}>
                           <Edit className="h-4 w-4" aria-hidden="true" />
                         </Button>
@@ -195,7 +195,7 @@ export default function CompanyExpensesPage() {
                         </ConfirmDialog>
                       </div>
                     </div>
-                    <div className="grid gap-2 text-sm sm:grid-cols-3">
+                    <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-3">
                       <Detail label="Paid To" value={item.paidTo || "Not added"} />
                       <Detail label="Bill No." value={item.billNumber || "Not added"} />
                       <Detail label="Driver" value={item.driver?.name || "Not linked"} />

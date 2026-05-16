@@ -119,20 +119,20 @@ export default function CompanyPaymentsPage() {
 
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <Header />
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="responsive-summary-grid">
           <SummaryCard label="Total Received" value={money(summary?.totalReceived)} />
           <SummaryCard label="Pending Outstanding" value={money(summary?.pendingOutstanding)} />
           <SummaryCard label="Today Received" value={money(summary?.todayReceived)} />
           <SummaryCard label="Payment Count" value={String(summary?.paymentCount ?? 0)} />
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_150px_150px] xl:grid-cols-[1fr_140px_140px_140px_140px_140px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-[minmax(0,1fr)_140px_140px_140px_140px_140px]">
                 <SearchInput value={search} onChange={setSearch} />
                 <FilterSelect label="Client" value={clientId} options={clients.map((item) => ({ value: item.id, label: item.clientName }))} onChange={setClientId} />
                 <FilterSelect label="Trip" value={tripId} options={trips.map((item) => ({ value: item.id, label: item.tripNumber }))} onChange={setTripId} />
@@ -149,7 +149,7 @@ export default function CompanyPaymentsPage() {
               <CardContent className="grid gap-3">
                 {payments.map((payment) => (
                   <div key={payment.id} className="grid gap-3 premium-record rounded-2xl p-4">
-                    <div className="grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
+                    <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
                       <div>
                         <p className="text-lg font-semibold">{payment.client.clientName}</p>
                         <p className="text-sm text-muted-foreground">{payment.trip?.tripNumber ?? "Client-level payment"}</p>
@@ -158,7 +158,7 @@ export default function CompanyPaymentsPage() {
                         <p className="font-medium">{money(payment.amount)}</p>
                         <p className="text-sm text-muted-foreground">{simple(payment.paymentMode)} / {new Date(payment.paymentDate).toLocaleDateString("en-IN")}</p>
                       </div>
-                      <div className="flex gap-2 lg:justify-end">
+                      <div className="flex flex-wrap gap-2 lg:justify-end">
                         <Button variant="secondary" size="icon" aria-label="Edit payment" onClick={() => startEdit(payment)}>
                           <Edit className="h-4 w-4" aria-hidden="true" />
                         </Button>
@@ -173,7 +173,7 @@ export default function CompanyPaymentsPage() {
                         </ConfirmDialog>
                       </div>
                     </div>
-                    <div className="grid gap-2 text-sm sm:grid-cols-3">
+                    <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-3">
                       <Detail label="Reference" value={payment.referenceNumber || "Not added"} />
                       <Detail label="Trip Balance" value={payment.trip ? money(payment.trip.balanceAmount) : "Not linked"} />
                       <Detail label="Notes" value={payment.notes || "Not added"} />

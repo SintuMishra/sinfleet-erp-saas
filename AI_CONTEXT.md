@@ -125,6 +125,9 @@ Frontend currently includes:
 - Payment records must attach a company-owned client and may attach a company-owned trip for that same client.
 - Company report APIs live under `/api/company/reports` and are protected by `requireRole(COMPANY_ADMIN, USER)`.
 - Report APIs include dashboard analytics, vehicle profit, driver performance, client ledger, document expiry, outstanding, trip profit, and client summary.
+- Company export APIs live under `/api/company/exports` and are protected by `requireRole(COMPANY_ADMIN, USER)`.
+- Export APIs include trip invoice PDF, client statement PDF, vehicle profit XLSX, driver performance XLSX, client ledger XLSX, and outstanding XLSX.
+- Exports reuse tenant-scoped report services where applicable, generate backend-only files through `pdfkit` and `exceljs`, set safe `Content-Disposition` filenames, and write `EXPORT` audit logs.
 - Super Admin is blocked from company vehicle APIs unless an explicit tenant context feature is added later.
 
 ## Environment Variables
@@ -156,7 +159,7 @@ Deployment is Docker-ready with initial Dockerfiles for frontend/backend and Com
 
 ## Latest Project State
 
-Industrial Hardening was implemented on 2026-05-16. Dependencies are installed, Prisma Client 7.8 is generated, migrations include company onboarding, vehicle management, driver management, client management, trip management, diesel/expense fields, payment/outstanding fields, and `AuditLog`. The latest backend pass adds auth rate limiting, strict CORS, request IDs, structured logging, input sanitization, audit logging, audit read APIs, graceful shutdown, and safer health metadata. The latest frontend pass adds protected shells, automatic token refresh, session expiry redirects, confirm-delete UX, and a global error boundary. The latest docs add industrial QA, security, deployment checklists, and hardening architecture notes.
+Responsive Stabilization was implemented on 2026-05-16 after the Export & Invoice Phase. The latest frontend pass keeps the premium UI and business logic intact while tightening layout behavior across MacBook Air/standard laptop/tablet/mobile widths. It adds responsive page/workspace/summary/filter helpers, reusable responsive container/table wrappers, safer shell/sidebar/header overflow behavior, public shell/landing stabilization, export button wrapping, and breakpoint fixes across admin, company CRUD, dashboard, and report pages.
 
 ## Verification State
 
@@ -167,6 +170,13 @@ Industrial Hardening was implemented on 2026-05-16. Dependencies are installed, 
 - `npm run typecheck`: passed after Industrial Hardening.
 - `npm run lint`: passed after Industrial Hardening.
 - `npm run build`: passed after Industrial Hardening with escalated permissions because Turbopack requires local helper process permissions.
+- `npm run db:generate`: passed after Export & Invoice Phase implementation.
+- `npm run typecheck`: passed after Export & Invoice Phase implementation.
+- `npm run lint`: passed after Export & Invoice Phase implementation.
+- `npm run build`: passed after Export & Invoice Phase implementation with escalated permissions because Turbopack requires a local helper process.
+- `npm run typecheck`: passed after Responsive Stabilization.
+- `npm run lint`: passed after Responsive Stabilization.
+- `npm run build`: passed after Responsive Stabilization with escalated permissions because Turbopack requires a local helper process.
 - `npm run dev`: running locally.
 - Frontend health: `http://localhost:3000` returns HTTP 200.
 - Backend health: `http://localhost:5001/api/health` returns `status: ok`.

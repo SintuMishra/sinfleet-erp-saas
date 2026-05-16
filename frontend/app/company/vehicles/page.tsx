@@ -162,19 +162,19 @@ export default function CompanyVehiclesPage() {
 
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">{labels.companyPanel}</p>
             <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{labels.vehicles}</h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="secondary">English</Button>
             <Button variant="secondary">Hindi Ready</Button>
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="responsive-summary-grid">
           <SummaryCard label={labels.totalVehicles} value={summary?.totalVehicles ?? 0} />
           <SummaryCard label={labels.activeVehicles} value={summary?.activeVehicles ?? 0} />
           <SummaryCard label={labels.onTrip} value={summary?.onTripVehicles ?? 0} />
@@ -182,10 +182,10 @@ export default function CompanyVehiclesPage() {
           <SummaryCard label={labels.expiringDocuments} value={summary?.expiringDocuments ?? 0} />
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_180px_210px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 2xl:grid-cols-[minmax(0,1fr)_180px_210px]">
                 <label className="relative block">
                   <Search className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <input
@@ -228,8 +228,8 @@ export default function CompanyVehiclesPage() {
               </CardHeader>
               <CardContent className="grid gap-3">
                 {vehicles.map((vehicle) => (
-                  <div key={vehicle.id} className="grid gap-3 premium-record rounded-2xl p-4 md:grid-cols-[1fr_auto]">
-                    <div className="grid gap-3 sm:grid-cols-[1.2fr_1fr_1fr]">
+                  <div key={vehicle.id} className="grid gap-3 premium-record rounded-2xl p-4 md:grid-cols-[minmax(0,1fr)_auto]">
+                    <div className="grid gap-3 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)]">
                       <div>
                         <p className="text-lg font-semibold">{vehicle.vehicleNumber}</p>
                         <p className="text-sm text-muted-foreground">{pretty(vehicle.vehicleType)}</p>

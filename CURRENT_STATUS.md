@@ -4,7 +4,7 @@ Date: 2026-05-16
 
 ## Current Phase
 
-Industrial Hardening Phase.
+Responsive Stabilization Phase.
 
 ## Completed Work
 
@@ -112,6 +112,21 @@ Industrial Hardening Phase.
 - Replaced direct soft-delete buttons with confirmation dialog warnings across company modules.
 - Improved trip resource status recalculation so vehicles/drivers are not left incorrectly `ON_TRIP`.
 - Added industrial QA, security, and deployment checklists.
+- Added backend company exports module under `/api/company/exports`.
+- Added backend-only PDF generation with `pdfkit` for trip invoices and client statements.
+- Added backend-only XLSX generation with `exceljs` for vehicle profit, driver performance, client ledger, and outstanding exports.
+- Added reusable PDF, Excel, formatting, safe filename, and content-disposition helpers.
+- Added `EXPORT` audit logging for all export endpoints under the `exports` module.
+- Added download controls, loading states, and error messages on trips, clients, and report pages.
+- Added export documentation and changelog.
+- Added frontend responsive stabilization helpers for page grids, summary grids, filter grids, workspace layouts, and scroll-safe tables.
+- Stabilized Company and Admin shells for laptop/tablet/mobile widths with narrower laptop sidebar tracks, scrollable sidebars/drawers, safer sticky headers, and overflow-hidden content frames.
+- Updated admin dashboard, companies, company dashboard, vehicles, drivers, clients, trips, diesel, expenses, payments, and report pages to reduce horizontal overflow and stack dense workspaces before very wide screens.
+- Added reusable `ResponsiveTable` wrapper and applied it to the Super Admin companies table.
+- Added reusable `ResponsiveContainer` wrapper for page-level stabilized layouts.
+- Improved filter bars, record rows, stat cards, cards, buttons, and page headers with min-width, wrapping, and breakpoint fixes.
+- Stabilized public shell/landing layout and export/download buttons so they wrap inside filter/header containers.
+- Added responsive stabilization changelog.
 
 ## Verification
 
@@ -125,6 +140,13 @@ Industrial Hardening Phase.
 - `npm run typecheck` passed after Industrial Hardening.
 - `npm run lint` passed after Industrial Hardening.
 - `npm run build` passed after Industrial Hardening with escalated permissions because Next.js/Turbopack needs local helper process permissions during build.
+- `npm run db:generate` passed after Export & Invoice Phase implementation.
+- `npm run typecheck` passed after Export & Invoice Phase implementation.
+- `npm run lint` passed after Export & Invoice Phase implementation.
+- `npm run build` passed after Export & Invoice Phase implementation with escalated permissions because Next.js/Turbopack requires a local helper process during build.
+- `npm run typecheck` passed after Responsive Stabilization.
+- `npm run lint` passed after Responsive Stabilization.
+- `npm run build` passed after Responsive Stabilization with escalated permissions because Next.js/Turbopack requires a local helper process during build.
 - `npm run dev` is running locally.
 - `GET http://localhost:5001/api/health` returned `status: ok`.
 - `HEAD http://localhost:3000` returned HTTP 200.
@@ -193,6 +215,12 @@ Industrial Hardening Phase.
 - `GET /api/company/reports/driver-performance`
 - `GET /api/company/reports/client-ledger`
 - `GET /api/company/reports/document-expiry`
+- `GET /api/company/exports/trip-invoice/:tripId.pdf`
+- `GET /api/company/exports/client-statement/:clientId.pdf`
+- `GET /api/company/exports/vehicle-profit.xlsx`
+- `GET /api/company/exports/driver-performance.xlsx`
+- `GET /api/company/exports/client-ledger.xlsx`
+- `GET /api/company/exports/outstanding.xlsx`
 - `GET /api/admin/audit-logs`
 - `GET /api/company/audit-logs`
 - `GET /api/companies` scaffold with auth and role guard
@@ -211,6 +239,8 @@ Industrial Hardening Phase.
 - Company diesel and expense APIs connect only company-owned trips, vehicles, and drivers and are ready for payment/outstanding and report profit calculations.
 - Company payment APIs connect only company-owned clients and trips, keep trip received/balance totals current, and feed outstanding/profit reports.
 - Company report APIs aggregate tenant-owned operational data for dashboards, vehicle profit, driver performance, client ledger, document expiry, outstanding, and trip profit.
+- Company export APIs reuse report data, stream files from the backend, and audit export actions without trusting client-supplied company ids.
+- Frontend layout now uses responsive utility classes for page, summary, filter, workspace, and table surfaces to keep laptop/tablet/mobile layouts within the viewport.
 - Frontend uses Next.js 16 App Router, Tailwind CSS, Axios API client, React Query provider, and reusable UI components.
 - Database schema uses `companyId` across tenant-owned business tables.
 - AuditLog records mutation audit events for critical company and admin actions.
@@ -232,7 +262,7 @@ Industrial Hardening Phase.
 
 ## Remaining UI Debt
 
-- Visual browser QA with seeded tenant data is still needed for every CRUD module.
-- Report pages are polished as premium list/card views, but charts and PDF/Excel exports are future work.
+- Seeded browser visual QA is still needed for every CRUD module and export control after a live database is available.
+- Report pages are polished as premium list/card views with initial PDF/Excel export actions; richer charts remain future work.
 - Destructive actions still use direct buttons; a real confirmation dialog should replace the placeholder before production.
 - Billing, documents, maintenance, driver mobile dashboard, and richer dashboard interactions remain future modules.

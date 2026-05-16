@@ -19,12 +19,12 @@ const reports = [
 export default function CompanyReportsPage() {
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <div>
           <p className="text-sm font-medium text-muted-foreground">{labels.companyPanel}</p>
           <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{labels.reports}</h1>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid min-w-0 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {reports.map((report) => (
             <Link key={report.href} href={report.href}>
               <Card className="h-full hover:border-primary/50">

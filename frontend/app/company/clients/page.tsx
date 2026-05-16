@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit, Handshake, Search, Trash2 } from "lucide-react";
+import { Download, Edit, Handshake, Search, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CompanyShell } from "@/components/company/company-shell";
@@ -18,6 +18,7 @@ import {
   updateCompanyClientStatus
 } from "@/lib/company-directory-api";
 import { companyLabels } from "@/lib/company-labels";
+import { downloadCompanyExport } from "@/lib/exports/company-export-api";
 
 const labels = companyLabels.en;
 const statuses: Array<ClientStatus | "ALL"> = ["ALL", "ACTIVE", "INACTIVE", "BLOCKED"];
@@ -46,6 +47,8 @@ export default function CompanyClientsPage() {
   const [form, setForm] = React.useState<ClientPayload>(() => blankClientForm());
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const [message, setMessage] = React.useState("");
+  const [statementDownloadId, setStatementDownloadId] = React.useState<string | null>(null);
+  const [downloadError, setDownloadError] = React.useState("");
 
   const clientsQuery = useQuery({
     queryKey: ["company-clients", search, status],
@@ -123,21 +126,33 @@ export default function CompanyClientsPage() {
     });
   }
 
+  async function downloadStatement(client: CompanyClient) {
+    setDownloadError("");
+    setStatementDownloadId(client.id);
+    try {
+      await downloadCompanyExport(`/company/exports/client-statement/${client.id}.pdf`, `${client.clientName}-statement.pdf`);
+    } catch {
+      setDownloadError("Statement PDF could not be downloaded.");
+    } finally {
+      setStatementDownloadId(null);
+    }
+  }
+
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <Header title={labels.clients} />
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="responsive-summary-grid">
           <SummaryCard label="Total Clients" value={summary?.totalClients ?? 0} />
           <SummaryCard label="Active" value={summary?.activeClients ?? 0} />
           <SummaryCard label="Inactive" value={summary?.inactiveClients ?? 0} />
           <SummaryCard label="Blocked" value={summary?.blockedClients ?? 0} />
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_180px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 2xl:grid-cols-[minmax(0,1fr)_180px]">
                 <SearchInput value={search} onChange={setSearch} placeholder={labels.searchClients} />
                 <StatusFilter value={status} onChange={(value) => setStatus(value as ClientStatus | "ALL")} options={statuses} />
               </CardContent>
@@ -148,9 +163,10 @@ export default function CompanyClientsPage() {
                 <CardTitle>Client List</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-3">
+                {downloadError ? <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{downloadError}</p> : null}
                 {clients.map((client) => (
-                  <div key={client.id} className="grid gap-3 premium-record rounded-2xl p-4 md:grid-cols-[1fr_auto]">
-                    <div className="grid gap-3 sm:grid-cols-3">
+                  <div key={client.id} className="grid gap-3 premium-record rounded-2xl p-4 md:grid-cols-[minmax(0,1fr)_auto]">
+                    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                       <div>
                         <p className="text-lg font-semibold">{client.clientName}</p>
                         <p className="text-sm text-muted-foreground">{client.phone}</p>
@@ -167,6 +183,10 @@ export default function CompanyClientsPage() {
                     <div className="flex flex-wrap gap-2 md:justify-end">
                       <Button variant="secondary" size="icon" aria-label="Edit client" onClick={() => startEdit(client)}>
                         <Edit className="h-4 w-4" aria-hidden="true" />
+                      </Button>
+                      <Button variant="secondary" className="gap-2" aria-label="Download Statement PDF" onClick={() => downloadStatement(client)} disabled={statementDownloadId === client.id}>
+                        <Download className="h-4 w-4" aria-hidden="true" />
+                        {statementDownloadId === client.id ? "Downloading" : "Statement PDF"}
                       </Button>
                       <select
                         className="h-10 rounded-xl border bg-white/90 px-3 text-sm outline-none focus:ring-2 focus:ring-sky-200"
@@ -300,7 +320,7 @@ function Header({ title }: { title: string }) {
         <p className="text-sm font-medium text-muted-foreground">{labels.companyPanel}</p>
         <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{title}</h1>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button variant="secondary">English</Button>
         <Button variant="secondary">Hindi Ready</Button>
       </div>

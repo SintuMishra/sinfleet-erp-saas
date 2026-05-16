@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ResponsiveTable } from "@/components/premium/data-table";
 import {
   type AdminCompany,
   type CompanyStatus,
@@ -114,22 +115,22 @@ export default function AdminCompaniesPage() {
 
   return (
     <AdminShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">{labels.owner}</p>
             <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{labels.companies}</h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="secondary">English</Button>
             <Button variant="secondary">Hindi Ready</Button>
           </div>
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_420px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_180px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 2xl:grid-cols-[minmax(0,1fr)_180px]">
                 <label className="relative block">
                   <Search className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <input
@@ -158,45 +159,47 @@ export default function AdminCompaniesPage() {
               <CardHeader>
                 <CardTitle>Company List</CardTitle>
               </CardHeader>
-              <CardContent className="overflow-x-auto">
-                <table className="w-full min-w-[760px] border-collapse text-left text-sm">
-                  <thead className="border-b text-muted-foreground">
-                    <tr>
-                      <th className="py-3 pr-3 font-medium">Company</th>
-                      <th className="py-3 pr-3 font-medium">Owner</th>
-                      <th className="py-3 pr-3 font-medium">Plan</th>
-                      <th className="py-3 pr-3 font-medium">Usage</th>
-                      <th className="py-3 pr-3 font-medium">Status</th>
-                      <th className="py-3 pr-3 font-medium">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {companies.map((company) => (
-                      <tr key={company.id} className="border-b last:border-0">
-                        <td className="py-3 pr-3">
-                          <p className="font-medium">{company.companyName}</p>
-                          <p className="text-xs text-muted-foreground">{company.companyCode}</p>
-                        </td>
-                        <td className="py-3 pr-3">
-                          <p>{company.ownerName}</p>
-                          <p className="text-xs text-muted-foreground">{company.ownerEmail}</p>
-                        </td>
-                        <td className="py-3 pr-3">{company.planName}</td>
-                        <td className="py-3 pr-3">
-                          {company._count.vehicles}/{company.maxVehicles} vehicles
-                        </td>
-                        <td className="py-3 pr-3">
-                          <StatusBadge status={company.status} />
-                        </td>
-                        <td className="py-3 pr-3">
-                          <Button variant="secondary" size="icon" aria-label="View company" onClick={() => setSelectedCompany(company)}>
-                            <Eye className="h-4 w-4" aria-hidden="true" />
-                          </Button>
-                        </td>
+              <CardContent>
+                <ResponsiveTable minWidth={760}>
+                  <table className="w-full border-collapse text-left text-sm">
+                    <thead className="border-b text-muted-foreground">
+                      <tr>
+                        <th className="py-3 pr-3 font-medium">Company</th>
+                        <th className="py-3 pr-3 font-medium">Owner</th>
+                        <th className="py-3 pr-3 font-medium">Plan</th>
+                        <th className="py-3 pr-3 font-medium">Usage</th>
+                        <th className="py-3 pr-3 font-medium">Status</th>
+                        <th className="py-3 pr-3 font-medium">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {companies.map((company) => (
+                        <tr key={company.id} className="border-b last:border-0">
+                          <td className="py-3 pr-3">
+                            <p className="font-medium">{company.companyName}</p>
+                            <p className="text-xs text-muted-foreground">{company.companyCode}</p>
+                          </td>
+                          <td className="py-3 pr-3">
+                            <p>{company.ownerName}</p>
+                            <p className="text-xs text-muted-foreground">{company.ownerEmail}</p>
+                          </td>
+                          <td className="py-3 pr-3">{company.planName}</td>
+                          <td className="py-3 pr-3">
+                            {company._count.vehicles}/{company.maxVehicles} vehicles
+                          </td>
+                          <td className="py-3 pr-3">
+                            <StatusBadge status={company.status} />
+                          </td>
+                          <td className="py-3 pr-3">
+                            <Button variant="secondary" size="icon" aria-label="View company" onClick={() => setSelectedCompany(company)}>
+                              <Eye className="h-4 w-4" aria-hidden="true" />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </ResponsiveTable>
                 {!companies.length ? (
                   <div className="flex min-h-32 items-center justify-center text-sm text-muted-foreground">
                     {companiesQuery.isLoading ? "Loading companies" : "No companies found"}
@@ -263,7 +266,7 @@ export default function AdminCompaniesPage() {
                 </div>
                 <FormInput label="Address" value={form.address} onChange={(value) => updateForm("address", value)} />
                 <FormInput label="GST Number" value={form.gstNumber ?? ""} onChange={(value) => updateForm("gstNumber", value)} required={false} />
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                   <FormInput label="Plan" value={form.planName} onChange={(value) => updateForm("planName", value)} />
                   <FormInput
                     label="Vehicles"

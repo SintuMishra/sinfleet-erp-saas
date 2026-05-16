@@ -32,8 +32,8 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
   return (
     <AuthGate allowedRoles={["SUPER_ADMIN"]} loginPath="/admin/login">
       <div className="premium-shell">
-        <div className="mx-auto grid min-h-screen max-w-[1500px] lg:grid-cols-[280px_1fr]">
-        <aside className="hidden border-r border-white/10 bg-slate-950/78 px-4 py-5 backdrop-blur-xl lg:block">
+        <div className="mx-auto grid min-h-screen w-full max-w-[1500px] lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
+        <aside className="hidden max-h-screen overflow-y-auto border-r border-white/10 bg-slate-950/78 px-4 py-5 backdrop-blur-xl lg:sticky lg:top-0 lg:block">
           <AdminNav pathname={pathname} />
         </aside>
 
@@ -45,7 +45,7 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
               aria-label="Close navigation"
               onClick={() => setMobileOpen(false)}
             />
-            <aside className="relative flex h-full w-[min(86vw,330px)] flex-col border-r border-white/10 bg-slate-950 px-4 py-5 shadow-2xl">
+            <aside className="relative flex h-full w-[min(88vw,330px)] min-w-0 flex-col overflow-y-auto border-r border-white/10 bg-slate-950 px-4 py-5 shadow-2xl">
               <div className="flex items-center justify-between">
                 <AdminBrand />
                 <Button variant="ghost" size="icon" aria-label="Close menu" className="text-white hover:bg-white/10" onClick={() => setMobileOpen(false)}>
@@ -57,14 +57,14 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
           </div>
         ) : null}
 
-        <div className="min-w-0 bg-slate-100/80">
+        <div className="min-w-0 overflow-x-hidden bg-slate-100/80">
           <header className="sticky top-0 z-20 border-b border-white/70 bg-white/80 backdrop-blur-xl">
-            <div className="flex h-16 items-center justify-between px-4 sm:px-6">
-              <div>
-                <p className="text-sm font-semibold text-slate-950">SinSoftware Control Center</p>
+            <div className="flex min-h-16 items-center justify-between gap-3 px-4 py-3 sm:px-6">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-slate-950">SinSoftware Control Center</p>
                 <p className="hidden text-xs text-slate-500 sm:block">Tenant onboarding, subscriptions and fleet SaaS operations</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-2">
                 <Button variant="secondary" size="icon" aria-label="Open menu" className="lg:hidden" onClick={() => setMobileOpen(true)}>
                   <Menu className="h-5 w-5" aria-hidden="true" />
                 </Button>
@@ -74,7 +74,7 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
               </div>
             </div>
           </header>
-          <main className="px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+          <main className="min-w-0 px-3 py-5 sm:px-5 sm:py-6 lg:px-6 xl:px-8">{children}</main>
         </div>
         </div>
       </div>
@@ -84,12 +84,12 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
 
 function AdminBrand() {
   return (
-    <Link href="/admin" className="flex items-center gap-3 rounded-2xl px-2 py-3">
+    <Link href="/admin" className="flex min-w-0 items-center gap-3 rounded-2xl px-2 py-3">
       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-cyan-300 text-slate-950">
         <Building2 className="h-6 w-6" aria-hidden="true" />
       </div>
-      <div>
-        <p className="text-base font-semibold leading-5 text-white">{labels.product}</p>
+      <div className="min-w-0">
+        <p className="truncate text-base font-semibold leading-5 text-white">{labels.product}</p>
         <p className="text-xs text-cyan-100/70">{labels.superAdmin}</p>
       </div>
     </Link>
@@ -100,13 +100,13 @@ function AdminNav({ pathname, showBrand = true }: { pathname: string; showBrand?
   return (
     <>
       {showBrand ? <AdminBrand /> : null}
-      <nav className="mt-6 grid gap-1">
+      <nav className="mt-6 grid min-w-0 gap-1">
         {navItems.map((item) => {
           const active = pathname === item.href;
           return (
             <Link key={item.href} href={item.href} className={`premium-nav-link group ${active ? "is-active" : ""}`}>
               <item.icon className="h-5 w-5" aria-hidden="true" />
-              <span className="min-w-0 flex-1">{item.label}</span>
+              <span className="min-w-0 flex-1 truncate">{item.label}</span>
               {active ? <ChevronRight className="h-4 w-4 text-cyan-200" aria-hidden="true" /> : null}
             </Link>
           );

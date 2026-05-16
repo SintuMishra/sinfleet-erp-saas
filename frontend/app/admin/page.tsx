@@ -14,7 +14,7 @@ const stats = [
 export default function AdminDashboardPage() {
   return (
     <AdminShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">SinSoftware Solutions</p>
@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {stats.map((stat) => (
             <Card key={stat.label}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

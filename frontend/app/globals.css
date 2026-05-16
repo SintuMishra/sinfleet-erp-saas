@@ -34,10 +34,12 @@
 
 * {
   border-color: hsl(var(--border));
+  min-width: 0;
 }
 
 body {
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top left, rgba(14, 165, 233, 0.18), transparent 34rem),
     linear-gradient(135deg, #f8fafc 0%, #e8eef6 48%, #dbeafe 100%);
@@ -53,6 +55,8 @@ body {
 input,
 select,
 textarea {
+  min-width: 0;
+  max-width: 100%;
   border-color: hsl(var(--border));
   background: rgba(255, 255, 255, 0.86);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
@@ -76,6 +80,13 @@ table {
   border-spacing: 0;
 }
 
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+
 thead {
   background: rgba(248, 250, 252, 0.86);
 }
@@ -96,6 +107,7 @@ th {
 
 .premium-shell {
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top right, rgba(34, 211, 238, 0.16), transparent 28rem),
     linear-gradient(135deg, #07111f 0%, #0f172a 34%, #172554 100%);
@@ -109,6 +121,7 @@ th {
 }
 
 .premium-card {
+  min-width: 0;
   border: 1px solid rgba(226, 232, 240, 0.9);
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 18px 44px rgba(15, 23, 42, 0.1);
@@ -158,10 +171,43 @@ th {
 }
 
 .premium-record {
+  min-width: 0;
   border: 1px solid rgba(226, 232, 240, 0.88);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.88));
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.responsive-page {
+  display: grid;
+  min-width: 0;
+  gap: 1.5rem;
+}
+
+.responsive-summary-grid {
+  display: grid;
+  min-width: 0;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.responsive-filter-grid {
+  display: grid;
+  min-width: 0;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+
+.responsive-workspace-grid {
+  display: grid;
+  min-width: 0;
+  gap: 1rem;
+}
+
+@media (min-width: 1536px) {
+  .responsive-workspace-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
+  }
 }
 
 .premium-record:hover {

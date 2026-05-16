@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit, Eye, Route, Search, Trash2 } from "lucide-react";
+import { Download, Edit, Eye, Route, Search, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CompanyShell } from "@/components/company/company-shell";
@@ -10,6 +10,7 @@ import { ConfirmDialog } from "@/components/premium/data-table";
 import { fetchCompanyVehicles } from "@/lib/company-api";
 import { fetchCompanyClients, fetchCompanyDrivers } from "@/lib/company-directory-api";
 import { fetchTripProfitReport } from "@/lib/company-payments-api";
+import { downloadCompanyExport } from "@/lib/exports/company-export-api";
 import {
   type CompanyTrip,
   type QuantityUnit,
@@ -58,6 +59,8 @@ export default function CompanyTripsPage() {
   const [editingId, setEditingId] = React.useState<string | null>(null);
   const [form, setForm] = React.useState<TripPayload>(() => blankTripForm());
   const [message, setMessage] = React.useState("");
+  const [invoiceDownloadId, setInvoiceDownloadId] = React.useState<string | null>(null);
+  const [downloadError, setDownloadError] = React.useState("");
 
   const tripsQuery = useQuery({
     queryKey: ["company-trips", search, status],
@@ -168,12 +171,24 @@ export default function CompanyTripsPage() {
     });
   }
 
+  async function downloadInvoice(trip: CompanyTrip) {
+    setDownloadError("");
+    setInvoiceDownloadId(trip.id);
+    try {
+      await downloadCompanyExport(`/company/exports/trip-invoice/${trip.id}.pdf`, `${trip.tripNumber}.pdf`);
+    } catch {
+      setDownloadError("Invoice PDF could not be downloaded.");
+    } finally {
+      setInvoiceDownloadId(null);
+    }
+  }
+
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <Header />
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="responsive-summary-grid">
           <SummaryCard label="Total Trips" value={summary?.totalTrips ?? 0} />
           <SummaryCard label="Running Trips" value={summary?.runningTrips ?? 0} />
           <SummaryCard label="Delivered Trips" value={summary?.deliveredTrips ?? 0} />
@@ -181,10 +196,10 @@ export default function CompanyTripsPage() {
           <SummaryCard label="Today Loading" value={summary?.todayLoading ?? 0} />
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1fr_430px]">
+        <div className="responsive-workspace-grid">
           <div className="grid gap-4">
             <Card>
-              <CardContent className="grid gap-3 pt-5 md:grid-cols-[1fr_180px]">
+              <CardContent className="grid gap-3 pt-5 md:grid-cols-2 2xl:grid-cols-[minmax(0,1fr)_180px]">
                 <label className="relative block">
                   <Search className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                   <input
@@ -214,9 +229,10 @@ export default function CompanyTripsPage() {
                 <CardTitle>Trip List</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-3">
+                {downloadError ? <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{downloadError}</p> : null}
                 {trips.map((trip) => (
                   <div key={trip.id} className="grid gap-3 premium-record rounded-2xl p-4">
-                    <div className="grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
+                    <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
                       <div>
                         <p className="text-lg font-semibold">{trip.tripNumber}</p>
                         <p className="text-sm text-muted-foreground">
@@ -237,6 +253,9 @@ export default function CompanyTripsPage() {
                         <Button variant="secondary" size="icon" aria-label="Edit trip" onClick={() => startEdit(trip)}>
                           <Edit className="h-4 w-4" aria-hidden="true" />
                         </Button>
+                        <Button variant="secondary" size="icon" aria-label="Download invoice PDF" onClick={() => downloadInvoice(trip)} disabled={invoiceDownloadId === trip.id}>
+                          <Download className="h-4 w-4" aria-hidden="true" />
+                        </Button>
                         <ConfirmDialog
                           title="Remove trip?"
                           description={`This will soft delete ${trip.tripNumber} and release assigned resources if no other active trip needs them.`}
@@ -248,7 +267,7 @@ export default function CompanyTripsPage() {
                         </ConfirmDialog>
                       </div>
                     </div>
-                    <div className="grid gap-2 text-sm sm:grid-cols-3">
+                    <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-3">
                       <Amount label="Freight" value={trip.freightAmount} />
                       <Amount label="Received" value={trip.receivedAmount} />
                       <Amount label="Balance" value={trip.balanceAmount} />
@@ -282,7 +301,13 @@ export default function CompanyTripsPage() {
             {selectedTrip ? (
               <Card>
                 <CardHeader>
-                  <CardTitle>Trip Detail</CardTitle>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <CardTitle>Trip Detail</CardTitle>
+                    <Button type="button" variant="secondary" className="gap-2" onClick={() => downloadInvoice(selectedTrip)} disabled={invoiceDownloadId === selectedTrip.id}>
+                      <Download className="h-4 w-4" aria-hidden="true" />
+                      {invoiceDownloadId === selectedTrip.id ? "Downloading" : "Download Invoice PDF"}
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent className="grid gap-3 sm:grid-cols-2">
                   <Detail label="Trip" value={selectedTrip.tripNumber} />
@@ -404,7 +429,7 @@ function Header() {
         <p className="text-sm font-medium text-muted-foreground">{labels.companyPanel}</p>
         <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{labels.trips}</h1>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button variant="secondary">English</Button>
         <Button variant="secondary">Hindi Ready</Button>
       </div>

@@ -3,19 +3,39 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export function DataTable({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-sm backdrop-blur", className)}>{children}</div>;
+  return <div className={cn("min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-sm backdrop-blur", className)}>{children}</div>;
 }
 
 export function FilterBar({ children }: { children: React.ReactNode }) {
-  return <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur md:grid-cols-3 xl:grid-cols-5">{children}</div>;
+  return <div className="grid min-w-0 gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">{children}</div>;
 }
 
 export function FormSection({ title, children }: { title?: string; children: React.ReactNode }) {
   return (
-    <section className="grid gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
+    <section className="grid min-w-0 gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
       {title ? <h3 className="font-semibold text-slate-950">{title}</h3> : null}
       {children}
     </section>
+  );
+}
+
+export function ResponsiveContainer({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <section className={cn("responsive-page", className)}>{children}</section>;
+}
+
+export function ResponsiveTable({
+  children,
+  minWidth = 720,
+  className
+}: {
+  children: React.ReactNode;
+  minWidth?: number;
+  className?: string;
+}) {
+  return (
+    <div className={cn("min-w-0 overflow-x-auto overscroll-x-contain rounded-xl", className)}>
+      <div style={{ minWidth }}>{children}</div>
+    </div>
   );
 }
 

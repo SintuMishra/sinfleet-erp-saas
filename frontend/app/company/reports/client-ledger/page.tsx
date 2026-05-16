@@ -1,12 +1,15 @@
 "use client";
 
+import { Download } from "lucide-react";
 import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CompanyShell } from "@/components/company/company-shell";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchCompanyClients } from "@/lib/company-directory-api";
 import { fetchClientLedgerReport } from "@/lib/company-payments-api";
 import { companyLabels } from "@/lib/company-labels";
+import { downloadCompanyExport } from "@/lib/exports/company-export-api";
 
 const labels = companyLabels.en;
 
@@ -14,6 +17,7 @@ export default function ClientLedgerReportPage() {
   const [fromDate, setFromDate] = React.useState("");
   const [toDate, setToDate] = React.useState("");
   const [clientId, setClientId] = React.useState("");
+  const [downloadState, setDownloadState] = React.useState<"idle" | "loading" | "error">("idle");
   const reportQuery = useQuery({
     queryKey: ["client-ledger-report", fromDate, toDate, clientId],
     queryFn: () => fetchClientLedgerReport({ fromDate, toDate, clientId, limit: 100 })
@@ -21,17 +25,28 @@ export default function ClientLedgerReportPage() {
   const clientsQuery = useQuery({ queryKey: ["report-clients"], queryFn: () => fetchCompanyClients({ limit: 100 }) });
   const rows = reportQuery.data?.items ?? [];
 
+  async function downloadExcel() {
+    setDownloadState("loading");
+    try {
+      await downloadCompanyExport("/company/exports/client-ledger.xlsx", "client-ledger.xlsx", { fromDate, toDate, clientId });
+      setDownloadState("idle");
+    } catch {
+      setDownloadState("error");
+    }
+  }
+
   return (
     <CompanyShell>
       <section className="grid gap-6">
         <Header title={labels.clientLedger} />
-        <Card><CardContent className="grid gap-3 pt-5 md:grid-cols-3"><Select label="Client" value={clientId} onChange={setClientId} options={(clientsQuery.data?.items ?? []).map((item) => ({ value: item.id, label: item.clientName }))} /><DateInput label="From Date" value={fromDate} onChange={setFromDate} /><DateInput label="To Date" value={toDate} onChange={setToDate} /></CardContent></Card>
+        <Card><CardContent className="grid gap-3 pt-5 md:grid-cols-2 xl:grid-cols-4"><Select label="Client" value={clientId} onChange={setClientId} options={(clientsQuery.data?.items ?? []).map((item) => ({ value: item.id, label: item.clientName }))} /><DateInput label="From Date" value={fromDate} onChange={setFromDate} /><DateInput label="To Date" value={toDate} onChange={setToDate} /><Button type="button" className="h-10 w-full gap-2 self-end sm:w-auto" onClick={downloadExcel} disabled={downloadState === "loading"}><Download className="h-4 w-4" aria-hidden="true" />{downloadState === "loading" ? "Downloading" : "Download Excel"}</Button></CardContent></Card>
+        {downloadState === "error" ? <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">Export could not be downloaded.</p> : null}
         <div className="grid gap-4">
           {rows.map((client) => (
             <Card key={client.clientId}>
               <CardHeader><CardTitle>{client.clientName}</CardTitle></CardHeader>
               <CardContent className="grid gap-4">
-                <div className="grid gap-2 text-sm sm:grid-cols-4">
+                <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-4">
                   <Detail label="Trips" value={String(client.totalTrips)} />
                   <Detail label={labels.totalIncome} value={money(client.totalFreight)} />
                   <Detail label="Received Amount" value={money(client.totalReceived)} />
@@ -39,7 +54,7 @@ export default function ClientLedgerReportPage() {
                 </div>
                 <div className="grid gap-2">
                   {client.tripBreakdown.slice(0, 8).map((trip) => (
-                    <div key={trip.id} className="grid gap-2 rounded-md border p-3 sm:grid-cols-[1fr_auto]">
+                    <div key={trip.id} className="grid gap-2 rounded-md border p-3 sm:grid-cols-[minmax(0,1fr)_auto]">
                       <div>
                         <p className="font-medium">{trip.tripNumber}</p>
                         <p className="text-sm text-muted-foreground">{trip.sourceLocation} to {trip.destinationLocation}</p>

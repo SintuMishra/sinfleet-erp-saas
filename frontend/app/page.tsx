@@ -13,27 +13,27 @@ const metrics = [
 export default function HomePage() {
   return (
     <main className="premium-shell min-h-screen overflow-hidden">
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
+        <header className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300 to-sky-400 text-slate-950 shadow-lg shadow-cyan-300/20">
               <Truck className="h-6 w-6" aria-hidden="true" />
             </div>
-            <div>
-              <p className="text-base font-semibold leading-5 text-white">SinFleet ERP</p>
+            <div className="min-w-0">
+              <p className="truncate text-base font-semibold leading-5 text-white">SinFleet ERP</p>
               <p className="text-xs text-cyan-100/70">SinSoftware Solutions</p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Link href="/company/login"><Button variant="secondary">Company Login</Button></Link>
             <Link href="/admin/login"><Button>Admin</Button></Link>
           </div>
         </header>
 
-        <section className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
+        <section className="grid min-w-0 flex-1 items-center gap-10 py-10 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:py-12">
+          <div className="min-w-0">
             <span className="premium-badge border-cyan-300/30 bg-cyan-300/10 text-cyan-100">Hindi / English ready</span>
-            <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-6xl">
+            <h1 className="mt-6 max-w-4xl break-words text-4xl font-semibold tracking-tight text-white sm:text-6xl">
               Smart Transport Management Platform
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
@@ -64,7 +64,7 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {["Trips", "Diesel", "Payments"].map((item) => (
                   <div key={item} className="rounded-2xl border bg-slate-50 p-4">
                     <Route className="h-5 w-5 text-sky-600" aria-hidden="true" />

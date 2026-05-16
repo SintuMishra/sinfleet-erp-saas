@@ -1,17 +1,20 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Download, Search } from "lucide-react";
 import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CompanyShell } from "@/components/company/company-shell";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchOutstandingReport } from "@/lib/company-payments-api";
 import { companyLabels } from "@/lib/company-labels";
+import { downloadCompanyExport } from "@/lib/exports/company-export-api";
 
 const labels = companyLabels.en;
 
 export default function CompanyOutstandingReportPage() {
   const [search, setSearch] = React.useState("");
+  const [downloadState, setDownloadState] = React.useState<"idle" | "loading" | "error">("idle");
   const outstandingQuery = useQuery({
     queryKey: ["company-outstanding", search],
     queryFn: () => fetchOutstandingReport(search)
@@ -19,15 +22,25 @@ export default function CompanyOutstandingReportPage() {
 
   const report = outstandingQuery.data;
 
+  async function downloadExcel() {
+    setDownloadState("loading");
+    try {
+      await downloadCompanyExport("/company/exports/outstanding.xlsx", "outstanding.xlsx", { search });
+      setDownloadState("idle");
+    } catch {
+      setDownloadState("error");
+    }
+  }
+
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <div>
           <p className="text-sm font-medium text-muted-foreground">{labels.companyPanel}</p>
           <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{labels.outstanding}</h1>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="responsive-summary-grid">
           <SummaryCard label="Pending Balance" value={money(report?.summary.balanceAmount)} />
           <SummaryCard label="Received Amount" value={money(report?.summary.receivedAmount)} />
           <SummaryCard label="Freight Amount" value={money(report?.summary.freightAmount)} />
@@ -35,7 +48,7 @@ export default function CompanyOutstandingReportPage() {
         </div>
 
         <Card>
-          <CardContent className="pt-5">
+          <CardContent className="grid gap-3 pt-5 md:grid-cols-[minmax(0,1fr)_auto]">
             <label className="relative block">
               <Search className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
               <input
@@ -45,10 +58,15 @@ export default function CompanyOutstandingReportPage() {
                 onChange={(event) => setSearch(event.target.value)}
               />
             </label>
+            <Button type="button" className="h-11 w-full gap-2 md:w-auto" onClick={downloadExcel} disabled={downloadState === "loading"}>
+              <Download className="h-4 w-4" aria-hidden="true" />
+              {downloadState === "loading" ? "Downloading" : "Download Excel"}
+            </Button>
           </CardContent>
         </Card>
+        {downloadState === "error" ? <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">Export could not be downloaded.</p> : null}
 
-        <div className="grid gap-4 xl:grid-cols-2">
+        <div className="grid min-w-0 gap-4 2xl:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Client-wise Outstanding</CardTitle>
@@ -63,7 +81,7 @@ export default function CompanyOutstandingReportPage() {
                     </div>
                     <p className="text-lg font-semibold">{money(client.balanceAmount)}</p>
                   </div>
-                  <div className="grid gap-2 text-sm sm:grid-cols-3">
+                  <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-3">
                     <Detail label="Freight" value={money(client.freightAmount)} />
                     <Detail label="Received" value={money(client.receivedAmount)} />
                     <Detail label="Trips" value={String(client.tripCount)} />
@@ -89,7 +107,7 @@ export default function CompanyOutstandingReportPage() {
                     </div>
                     <p className="text-lg font-semibold">{money(trip.balanceAmount)}</p>
                   </div>
-                  <div className="grid gap-2 text-sm sm:grid-cols-3">
+                  <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-3">
                     <Detail label="Freight" value={money(trip.freightAmount)} />
                     <Detail label="Received" value={money(trip.receivedAmount)} />
                     <Detail label="Loading" value={new Date(trip.loadingDate).toLocaleDateString("en-IN")} />

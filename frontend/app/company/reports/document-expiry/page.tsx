@@ -19,18 +19,18 @@ export default function DocumentExpiryReportPage() {
 
   return (
     <CompanyShell>
-      <section className="grid gap-6">
+      <section className="responsive-page">
         <div>
           <p className="text-sm font-medium text-muted-foreground">{labels.reports}</p>
           <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{labels.documentExpiry}</h1>
         </div>
         <Card>
-          <CardContent className="grid gap-3 pt-5 sm:grid-cols-[220px_1fr]">
+          <CardContent className="grid gap-3 pt-5 sm:grid-cols-[220px_minmax(0,1fr)]">
             <label className="grid gap-1 text-sm font-medium">
               Days
               <input className="h-10 rounded-xl border bg-white/90 px-3 outline-none focus:ring-2 focus:ring-sky-200" type="number" min={1} max={365} value={days} onChange={(event) => setDays(Number(event.target.value))} />
             </label>
-            <div className="grid gap-2 text-sm sm:grid-cols-3">
+            <div className="grid gap-2 text-sm sm:grid-cols-2 xl:grid-cols-3">
               <Detail label="Vehicle Documents" value={String(report?.summary.vehicleDocumentsExpiring ?? 0)} />
               <Detail label="Driver Licenses" value={String(report?.summary.driverLicensesExpiring ?? 0)} />
               <Detail label="Total Expiring" value={String(report?.summary.totalExpiring ?? 0)} />
@@ -38,7 +38,7 @@ export default function DocumentExpiryReportPage() {
           </CardContent>
         </Card>
 
-        <div className="grid gap-4 xl:grid-cols-2">
+        <div className="grid min-w-0 gap-4 2xl:grid-cols-2">
           <Card>
             <CardHeader><CardTitle>Vehicle Documents</CardTitle></CardHeader>
             <CardContent className="grid gap-3">
@@ -60,7 +60,7 @@ export default function DocumentExpiryReportPage() {
             <CardHeader><CardTitle>Driver Licenses</CardTitle></CardHeader>
             <CardContent className="grid gap-3">
               {(report?.drivers ?? []).map((driver) => (
-                <div key={driver.id} className="grid gap-2 premium-record rounded-2xl p-4 sm:grid-cols-[1fr_auto]">
+                <div key={driver.id} className="grid gap-2 premium-record rounded-2xl p-4 sm:grid-cols-[minmax(0,1fr)_auto]">
                   <div>
                     <p className="text-lg font-semibold">{driver.name}</p>
                     <p className="text-sm text-muted-foreground">{driver.phone} / {driver.licenseNumber}</p>
