@@ -579,15 +579,35 @@ Detailed engineering and operational references are maintained inside the reposi
 
 ## Product Screenshots
 
-Product screenshots will be added after the seeded visual QA pass so the repository documents verified application states rather than placeholder UI.
+### Trip Operations
 
-Planned repository views include:
+![SinFleet ERP Trip Operations](docs/screenshots/trips.png)
 
-- Company Dashboard
-- Trip Operations
-- Payments / Outstanding
-- Vehicle Profit & Reports
-- Super Admin Company Management
+End-to-end trip operations with vehicle, driver, client, route, freight, received amount, outstanding balance, and trip-status visibility.
+
+### Payments & Collections
+
+![SinFleet ERP Payments](docs/screenshots/payments.png)
+
+Company-scoped payment tracking with received revenue, outstanding collections, trip-linked payments, and operational finance visibility.
+
+### Multi-Tenant Administration
+
+![SinFleet ERP Super Admin Companies](docs/screenshots/super-admin-companies.png)
+
+Platform-level company administration for tenant status, subscription plans, operational limits, and company-level SaaS management.
+
+### Client Management
+
+![SinFleet ERP Clients](docs/screenshots/clients.png)
+
+Client master data with contact information, operational relationship management, and downloadable statement workflows.
+
+### Company Dashboard
+
+![SinFleet ERP Company Dashboard](docs/screenshots/company-dashboard.png)
+
+Company-level operational overview combining fleet activity, trips, financial indicators, recent activity, and key business metrics.
 
 ---
 
