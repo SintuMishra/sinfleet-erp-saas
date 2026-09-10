@@ -1,5 +1,8 @@
 # SinFleet ERP
 
+
+[![CI](https://github.com/SintuMishra/sinfleet-erp-saas/actions/workflows/ci.yml/badge.svg)](https://github.com/SintuMishra/sinfleet-erp-saas/actions/workflows/ci.yml)
+
 SinFleet ERP is a production-oriented multi-tenant Fleet Management ERP SaaS for transport companies, fleet operators, contractors, trucks, trailers, and Signa vehicle operations.
 
 Company owner: **SinSoftware Solutions**
